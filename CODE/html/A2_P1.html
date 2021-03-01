@@ -1,0 +1,572 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ELEC 4700</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-28"><meta name="DC.source" content="A2_P1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ELEC 4700</h1><!--introduction--><p>Assigment - 2 Saifuddin Mohammed, #101092039</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">The first segement of the assignment required calculation of Electrostatic potential of Rectanfgular region with dimensions L x W.</a></li><li><a href="#2">b)	V = V0 at x = 0, x = L</a></li></ul></div><h2 id="1">The first segement of the assignment required calculation of Electrostatic potential of Rectanfgular region with dimensions L x W.</h2><pre class="codeinput"><span class="comment">% 1</span>
+<span class="comment">% a)	V = V0 at x = 0 and V = 0 at x = L</span>
+
+
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>,<span class="string">'docked'</span>)
+set(0,<span class="string">'defaultaxesfontsize'</span>,20)
+set(0,<span class="string">'defaultaxesfontname'</span>,<span class="string">'Times New Roman'</span>)
+set(0,<span class="string">'DefaultLineLineWidth'</span>,2);
+
+close <span class="string">all</span>
+clear
+clc
+
+
+nx = 50;
+ny = 50;
+
+<span class="comment">%Create G matrix using Sparse</span>
+G = sparse(nx*ny);
+
+<span class="comment">%Set up B matrix</span>
+F = zeros(nx*ny,1);
+
+
+
+<span class="comment">% Setting up Length and Width as per the ratio L/W = 3/2</span>
+L = 2;
+W = 3;
+
+V_0 = 1;    <span class="comment">%Assigning V0 a value of 1;</span>
+
+
+
+
+<span class="keyword">for</span> i = 1 : nx                <span class="comment">%Filling the matrix G</span>
+
+    <span class="keyword">for</span> j = 1 : ny
+
+        n = j + (i - 1)*ny;     <span class="comment">%Mapping the Nodes</span>
+
+
+        n_g1 = j + (i - 2)*ny;
+        n_gx = j + i*ny;
+        n_g2 = (j - 1) + (i - 1)*ny;
+        n_gy = (j + 1) + (i - 1)*ny;
+
+
+        <span class="keyword">if</span> (i == 1 || i == nx || j == 1 || j == ny)              <span class="comment">% Filling the matrix and setting up the boundary conditions.</span>
+
+            G(n,n) = 1;
+
+        <span class="keyword">else</span>
+
+            G(n,n) = -4;
+            G(n,n_g1) = 1;                             <span class="comment">% G Matrix Diagnols</span>
+            G(n,n_gx) = 1;
+            G(n,n_g2) = 1;
+            G(n,n_gy) = 1;
+
+        <span class="keyword">end</span>
+
+
+        <span class="keyword">if</span> i &gt; (nx-(nx-1)) &amp;&amp; i &lt; nx                           <span class="comment">% Adjusting the boundaries on y-axis from the derivatives.</span>
+            G(i,i + nx) = -1;
+            G(i + (ny - 1)*nx,i + (ny - 2)*nx) = -1;
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">% Configuring the V matrix with the given conditions</span>
+<span class="comment">% V = V0 and x = 0</span>
+
+<span class="keyword">for</span> h = 1: ny
+
+    F(1 + (h - 1)*ny,1) = V_0;    <span class="comment">% The boundary conditions have been determined above</span>
+
+<span class="keyword">end</span>
+
+V = G\F;
+
+<span class="keyword">for</span> i = 1:nx
+
+    <span class="keyword">for</span> j = 1:ny
+
+        n = j + (i - 1)*ny;
+
+        Vmap(i,j) = V(n);
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">%Generating a plot of V(x)</span>
+
+Dx = linspace(0,L,nx);
+Dy = linspace(0,W,ny);
+
+
+
+figure(1)
+surf(Dx,Dy,Vmap)
+view(0,90)
+title({<span class="string">'Voltage Plot, SM101092039'</span>})
+xlabel(<span class="string">'X'</span>)
+ylabel(<span class="string">'Y'</span>)
+</pre><img vspace="5" hspace="5" src="A2_P1_01.png" alt=""> <h2 id="2">b)	V = V0 at x = 0, x = L</h2><pre class="codeinput">clear
+clc
+
+
+<span class="comment">%</span>
+nx = 50;
+ny = 50;
+
+<span class="comment">%Create G matrix using Sparse</span>
+G = sparse(nx*ny);
+
+<span class="comment">%Set up V matrix</span>
+F = zeros(nx*ny,1);
+
+
+
+<span class="comment">% Setting up Length and Width as per the ratio L/W = 3/2</span>
+L = 3;
+W = 2;
+
+V_0 = 1;    <span class="comment">%Assigning V0 a value of 1;</span>
+
+
+<span class="keyword">for</span> i = 1 : nx                <span class="comment">%Filling the matrix G</span>
+
+    <span class="keyword">for</span> j = 1 : ny
+
+        n = j + (i - 1)*ny;     <span class="comment">%Mapping the Nodes</span>
+
+
+        n_g1 = j + (i - 2)*ny;
+        n_gx = j + i*ny;
+        n_g2 = (j - 1) + (i - 1)*ny;
+        n_gy = (j + 1) + (i - 1)*ny;
+
+
+        <span class="keyword">if</span> (i == 1 || i == nx || j == 1 || j == ny)              <span class="comment">% Filling the matrix and setting up the boundary conditions.</span>
+
+            G(n,n) = 1;
+
+        <span class="keyword">else</span>
+
+            G(n,n) = -4;
+            G(n,n_g1) = 1;                             <span class="comment">% G Matrix Diagnols</span>
+            G(n,n_gx) = 1;
+            G(n,n_g2) = 1;
+            G(n,n_gy) = 1;
+
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+<span class="keyword">for</span> h = 2:(ny-1)
+
+    <span class="comment">%Adjusting the boundary for the Case ii requirements</span>
+
+    F(1 + (h - 1)*ny,1) = V_0;
+
+    F(nx + (h - 1)*ny,1) = V_0;
+
+
+<span class="keyword">end</span>
+
+
+V = G\F;
+
+<span class="keyword">for</span> i = 1:nx
+    <span class="keyword">for</span> j = 1:ny
+
+        n = j + (i - 1)*ny;
+
+        Vmap(i,j) = V(n);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">% Setting up the limits for the x and the y Axes</span>
+Dx = linspace(0,L,nx);
+Dy = linspace(0,W,ny);
+
+
+figure(2)
+surf(Dx,Dy,Vmap)
+title({<span class="string">'Numerical Solution Plot, SM-101092039'</span>})
+xlabel(<span class="string">'X'</span>)
+ylabel(<span class="string">'Y'</span>)
+zlabel(<span class="string">'Z'</span>)
+
+<span class="comment">%Using the Analytical Series solution to solve</span>
+
+n_M = 100;
+series_Analytical = zeros(nx,ny);
+
+
+<span class="comment">%Setting up the plot generation of the analytical solution</span>
+
+[V,y] = meshgrid(linspace(-L/2,L/2,nx), linspace(0,W,ny));
+
+
+
+
+
+<span class="keyword">for</span> seq_iter = 1:n_M
+
+
+
+   n_t = 2*seq_iter - 1;     <span class="comment">%The series evaluates for n = 1,3,5..... where n must be odd.</span>
+
+
+
+   <span class="comment">%Setting up the Analytical Series solution equation from the instruction</span>
+   <span class="comment">%manual</span>
+
+    equ_a = W;
+    equ_b = L/2;
+
+       series_Analytical = series_Analytical + (4*V_0/pi) .* (1/n_t) .* (cosh((n_t*pi).*V./equ_a) <span class="keyword">...</span>
+         ./ cosh((n_t*pi).*equ_b./equ_a)) .* sin((n_t*pi).*y./equ_a);
+
+     pause(0.001)
+
+
+<span class="keyword">end</span>
+
+
+<span class="comment">%Generating a plot of Analytical Series Solution</span>
+<span class="comment">%Producing a 3D plot of the Analytical Solution</span>
+figure(3)
+surf(Dx,Dy,series_Analytical)
+title({<span class="string">'Anaytical Series Solution, SM-101092039'</span>})
+xlabel(<span class="string">'X'</span>)
+ylabel(<span class="string">'Y'</span>)
+zlabel(<span class="string">'Z'</span>)
+</pre><img vspace="5" hspace="5" src="A2_P1_02.png" alt=""> <img vspace="5" hspace="5" src="A2_P1_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ELEC 4700 
+% Assigment - 2 
+% Saifuddin Mohammed, #101092039
+
+
+%% The first segement of the assignment required calculation of Electrostatic potential of Rectanfgular region with dimensions L x W. 
+
+% 1  
+% a)	V = V0 at x = 0 and V = 0 at x = L 
+
+
+set(0,'DefaultFigureWindowStyle','docked')
+set(0,'defaultaxesfontsize',20)
+set(0,'defaultaxesfontname','Times New Roman')
+set(0,'DefaultLineLineWidth',2); 
+
+close all
+clear
+clc
+
+
+nx = 50;
+ny = 50;
+
+%Create G matrix using Sparse
+G = sparse(nx*ny);  
+
+%Set up B matrix 
+F = zeros(nx*ny,1);
+
+
+
+% Setting up Length and Width as per the ratio L/W = 3/2
+L = 2;
+W = 3;
+
+V_0 = 1;    %Assigning V0 a value of 1;
+
+
+
+
+for i = 1 : nx                %Filling the matrix G 
+    
+    for j = 1 : ny
+        
+        n = j + (i - 1)*ny;     %Mapping the Nodes     
+        
+        
+        n_g1 = j + (i - 2)*ny;
+        n_gx = j + i*ny;
+        n_g2 = (j - 1) + (i - 1)*ny;
+        n_gy = (j + 1) + (i - 1)*ny;
+        
+        
+        if (i == 1 || i == nx || j == 1 || j == ny)              % Filling the matrix and setting up the boundary conditions. 
+            
+            G(n,n) = 1;
+            
+        else
+            
+            G(n,n) = -4;
+            G(n,n_g1) = 1;                             % G Matrix Diagnols
+            G(n,n_gx) = 1;
+            G(n,n_g2) = 1;
+            G(n,n_gy) = 1;
+            
+        end
+        
+      
+        if i > (nx-(nx-1)) && i < nx                           % Adjusting the boundaries on y-axis from the derivatives. 
+            G(i,i + nx) = -1;
+            G(i + (ny - 1)*nx,i + (ny - 2)*nx) = -1;
+            
+        end
+        
+    end
+    
+end
+
+% Configuring the V matrix with the given conditions
+% V = V0 and x = 0 
+
+for h = 1: ny
+    
+    F(1 + (h - 1)*ny,1) = V_0;    % The boundary conditions have been determined above
+   
+end
+
+V = G\F;
+
+for i = 1:nx
+    
+    for j = 1:ny
+       
+        n = j + (i - 1)*ny;
+        
+        Vmap(i,j) = V(n);
+        
+    end
+end
+
+
+%Generating a plot of V(x) 
+
+Dx = linspace(0,L,nx);
+Dy = linspace(0,W,ny);
+
+
+
+figure(1)
+surf(Dx,Dy,Vmap)
+view(0,90)
+title({'Voltage Plot, SM101092039'})
+xlabel('X')
+ylabel('Y')
+
+%%  b)	V = V0 at x = 0, x = L
+
+clear
+clc
+
+
+% 
+nx = 50;
+ny = 50;
+
+%Create G matrix using Sparse
+G = sparse(nx*ny);  
+
+%Set up V matrix 
+F = zeros(nx*ny,1);
+
+
+
+% Setting up Length and Width as per the ratio L/W = 3/2
+L = 3;
+W = 2;
+
+V_0 = 1;    %Assigning V0 a value of 1;
+
+
+for i = 1 : nx                %Filling the matrix G 
+    
+    for j = 1 : ny
+        
+        n = j + (i - 1)*ny;     %Mapping the Nodes     
+        
+        
+        n_g1 = j + (i - 2)*ny;
+        n_gx = j + i*ny;
+        n_g2 = (j - 1) + (i - 1)*ny;
+        n_gy = (j + 1) + (i - 1)*ny;
+        
+        
+        if (i == 1 || i == nx || j == 1 || j == ny)              % Filling the matrix and setting up the boundary conditions. 
+            
+            G(n,n) = 1;
+            
+        else
+            
+            G(n,n) = -4;
+            G(n,n_g1) = 1;                             % G Matrix Diagnols
+            G(n,n_gx) = 1;
+            G(n,n_g2) = 1;
+            G(n,n_gy) = 1;
+            
+        end
+    end
+    
+end
+    
+    
+
+for h = 2:(ny-1)
+    
+    %Adjusting the boundary for the Case ii requirements 
+    
+    F(1 + (h - 1)*ny,1) = V_0;
+    
+    F(nx + (h - 1)*ny,1) = V_0;
+    
+    
+end
+
+
+V = G\F;
+
+for i = 1:nx
+    for j = 1:ny
+        
+        n = j + (i - 1)*ny;
+        
+        Vmap(i,j) = V(n);
+    end
+end
+
+
+% Setting up the limits for the x and the y Axes
+Dx = linspace(0,L,nx);
+Dy = linspace(0,W,ny);
+
+
+figure(2)
+surf(Dx,Dy,Vmap)
+title({'Numerical Solution Plot, SM-101092039'})
+xlabel('X')
+ylabel('Y')
+zlabel('Z')
+
+%Using the Analytical Series solution to solve 
+
+n_M = 100;
+series_Analytical = zeros(nx,ny);
+
+
+%Setting up the plot generation of the analytical solution 
+
+[V,y] = meshgrid(linspace(-L/2,L/2,nx), linspace(0,W,ny));  
+
+
+
+
+
+for seq_iter = 1:n_M
+    
+    
+    
+   n_t = 2*seq_iter - 1;     %The series evaluates for n = 1,3,5..... where n must be odd.
+                             
+    
+    
+   %Setting up the Analytical Series solution equation from the instruction
+   %manual 
+   
+    equ_a = W;
+    equ_b = L/2;
+
+       series_Analytical = series_Analytical + (4*V_0/pi) .* (1/n_t) .* (cosh((n_t*pi).*V./equ_a) ...
+         ./ cosh((n_t*pi).*equ_b./equ_a)) .* sin((n_t*pi).*y./equ_a);
+     
+     pause(0.001)
+     
+     
+end
+
+
+%Generating a plot of Analytical Series Solution 
+%Producing a 3D plot of the Analytical Solution 
+figure(3)
+surf(Dx,Dy,series_Analytical)
+title({'Anaytical Series Solution, SM-101092039'})
+xlabel('X')
+ylabel('Y')
+zlabel('Z')
+
+##### SOURCE END #####
+--></body></html>

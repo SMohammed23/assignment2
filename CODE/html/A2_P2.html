@@ -1,0 +1,2037 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Part 2</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-28"><meta name="DC.source" content="A2_P2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Part 2</h1><!--introduction--><p>Saifuddin Mohammed #101092039</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">2A)</a></li><li><a href="#2">2B) Investigate Mesh Densty</a></li><li><a href="#3">2C) Investigate narrowing of the bottle neck</a></li><li><a href="#4">2D)Investigate the varying conductivity of the Box</a></li></ul></div><h2 id="1">2A)</h2><pre class="codeinput">set(0,<span class="string">'DefaultFigureWindowStyle'</span>,<span class="string">'docked'</span>)
+set(0,<span class="string">'defaultaxesfontsize'</span>,20)
+set(0,<span class="string">'defaultaxesfontname'</span>,<span class="string">'Times New Roman'</span>)
+set(0,<span class="string">'DefaultLineLineWidth'</span>,2);
+
+close <span class="string">all</span>
+clear
+clc
+
+<span class="comment">% Setting up Length and Width as per the ratio L/W</span>
+L = 1;
+W = 1;
+
+V_0 = 1;    <span class="comment">%Assigning V0 a value of 1;</span>
+
+
+nx = 100*L;
+ny = 100*W;
+
+W_BN = 0.4;     <span class="comment">%Width of the rectangle box</span>
+L_BN = 0.4;     <span class="comment">%Length of the rectangle box</span>
+
+
+sig_1 = 1;        <span class="comment">%Value of sigma outside the box</span>
+sig_2 = 1e-2;     <span class="comment">%Value of sigma inside the box</span>
+
+
+
+
+
+C = zeros(ny,nx);   <span class="comment">% Map of Conductivity</span>
+
+
+
+
+<span class="keyword">for</span> h = 1:ny
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="comment">%Assigning the values of sigma as per the location of the element</span>
+
+
+        <span class="keyword">if</span>(g &gt;= nx*W_BN &amp;&amp; g &lt;= nx-nx*W_BN &amp;&amp; (h &gt;= ny-ny*L_BN || h &lt;= ny*L_BN))
+
+
+            <span class="comment">% If inside the box, then sigma = 1e^-2</span>
+
+            C(h,g) = sig_2;
+
+
+        <span class="keyword">else</span>                                         <span class="comment">%This is for outside the box. sigma = 1</span>
+
+            C(h,g) = sig_1;
+
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">end</span>
+
+
+<span class="keyword">end</span>
+
+
+
+
+<span class="comment">% Plot of conductivity of the region</span>
+figure(4)
+surf(C)
+view(0,90)
+xlabel(<span class="string">'L (um)'</span>)
+ylabel(<span class="string">'W (um)'</span>)
+title({<span class="string">'Conductivity, sigma(x,y) of the Region, SM101092039'</span>})
+
+
+
+<span class="comment">%  Creating the G matrix and B vector for the GV = F solution</span>
+
+ G = sparse(nx*ny);
+ F = zeros(nx*ny,1);
+
+
+
+<span class="keyword">for</span> g = 1:nx
+
+    <span class="keyword">for</span> h = 1:ny
+
+       <span class="comment">%Mapping of the nodes equation</span>
+        n = h + (g - 1)*ny;
+
+
+
+       <span class="comment">%Local Mapping of the nodes around g and h</span>
+        nxm = h + (g - 2)*ny;
+        nxp = h + g*ny;
+        nym = (h - 1) + (g - 1)*ny;
+        nyp = (h + 1) + (g - 1)*ny;
+
+
+
+        <span class="keyword">if</span>(g == 1 || g == nx)
+
+
+            G(n,n) = 1;       <span class="comment">%Left Side Set Voltage</span>
+
+
+
+
+        <span class="keyword">elseif</span> (h == 1)    <span class="comment">%Evalutation at the bottom region</span>
+
+            U_Y = (C(h,g)+C(h+1,g))/2;
+            U_X = (C(h,g)+C(h,g+1))/2;
+            UX_D = (C(h,g)+C(h,g-1))/2;
+
+            G(n,n) = -(U_Y + U_X + UX_D);
+            G(n,nyp) = U_Y;
+            G(n,nxp) = U_X;
+            G(n,nxm) = UX_D;
+
+
+       <span class="comment">% Evaluation at the top region</span>
+
+       <span class="keyword">elseif</span> (h == ny)
+
+
+              YDY_E = (C(h,g)+C(h-1,g))/2;
+              UDX_E = (C(h,g)+C(h,g+1))/2;
+              DDX_E = (C(h,g)+C(h,g-1))/2;
+
+              G(n,n) = -(YDY_E + UDX_E + DDX_E);
+              G(n,nym) = YDY_E;
+              G(n,nxp) = UDX_E;
+              G(n,nxm) = DDX_E;
+
+
+
+        <span class="keyword">else</span>
+
+
+           <span class="comment">%The finite difference method is being applied to evaluate the</span>
+           <span class="comment">%regions potetntial outside the range as well.</span>
+
+            U_Y = (C(h,g)+C(h+1,g))/2;
+            D_Y = (C(h,g)+C(h-1,g))/2;
+            U_X = (C(h,g)+C(h,g+1))/2;
+            UX_D = (C(h,g)+C(h,g-1))/2;
+
+
+            G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+            G(n,nyp) = U_Y;
+            G(n,nym) = D_Y;
+            G(n,nxp) = U_X;
+            G(n,nxm) = UX_D;
+
+
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">end</span>
+
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="keyword">for</span> g = 1:nx
+
+    <span class="keyword">for</span> h = 1:ny
+
+
+
+        <span class="comment">%Node Mapping Equation</span>
+        n = h + (g - 1)*ny;
+
+
+        <span class="keyword">if</span> (g == 1) <span class="comment">%Indicating a shift towards left so the value must be set equal to V_0</span>
+
+
+            F(n) = V_0;
+
+
+        <span class="keyword">end</span>
+
+
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">% Utilizing  GV = F to solve the equation</span>
+
+V = G\F;
+
+
+<span class="keyword">for</span> g = 1:nx
+
+    <span class="keyword">for</span> h = 1:ny
+
+        <span class="comment">% Node mapping to put entries into the correct place</span>
+        n = h + (g - 1)*ny;
+
+        Vmap(h,g) = V(n);
+
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+
+<span class="comment">% Plotting the Voltage V across the region</span>
+figure(5)
+surf(Vmap)
+view(0,90)
+xlabel(<span class="string">'L (um)'</span>)
+ylabel(<span class="string">'W (um)'</span>)
+title({<span class="string">'Voltage V(x,y) Plot, SM101092039'</span>})
+
+
+
+[E_x,E_y] = gradient(-Vmap);   <span class="comment">%Electric Field of the regions can be determined from using the gradient</span>
+
+
+
+
+<span class="comment">% Plotting the Electric Field over the region</span>
+
+figure(6)
+quiver(E_x,E_y)
+view(0,90)
+xlabel(<span class="string">'L (um)'</span>)
+ylabel(<span class="string">'W (um)'</span>)
+title({<span class="string">'Electric Field in the Region, SM101092039'</span>})
+ylim([0,100])
+xlim([0,100])
+
+
+
+
+
+<span class="comment">%The current density can be calculated from the Electric Field Potential</span>
+J_dx = E_x.*C;
+J_dy = E_y.*C;
+
+
+<span class="comment">% Generating a plot of Current Density, J across the region</span>
+figure(7)
+quiver(J_dx,J_dy)
+view(0,90)
+xlabel(<span class="string">'L (um)'</span>)
+ylabel(<span class="string">'Width (um)'</span>)
+title({<span class="string">'Current Density, J(x,y) Plot, SM101092039'</span>})
+ylim([0,100])
+xlim([0,100])
+
+
+
+
+<span class="comment">%Current Density on the Left side of the region is being determined</span>
+J_L = sum(C(:,1).*E_x(:,1));
+
+
+<span class="comment">% Determination of Current Density on the Right side of the region</span>
+J_R = sum(C(:,nx).*E_x(:,nx));
+
+
+
+<span class="comment">%Display the calculated current flow along the sides of the region.</span>
+
+fprintf(<span class="string">'Right side current flow is %f7 A.\n'</span>,J_R)
+fprintf(<span class="string">'Left side current flow is %f7 A.\n'</span>,J_L)
+</pre><pre class="codeoutput">Right side current flow is 0.3968477 A.
+Left side current flow is 0.3968477 A.
+</pre><img vspace="5" hspace="5" src="A2_P2_01.png" alt=""> <img vspace="5" hspace="5" src="A2_P2_02.png" alt=""> <img vspace="5" hspace="5" src="A2_P2_03.png" alt=""> <img vspace="5" hspace="5" src="A2_P2_04.png" alt=""> <h2 id="2">2B) Investigate Mesh Densty</h2><pre class="codeinput"><span class="comment">%Assigning the Mesh current rate flow</span>
+CurrentL_M = J_L;
+CurrentR_M = J_R;
+
+
+<span class="comment">% Creating variables for current versus box lengths/widths</span>
+
+
+box_SL = J_L;   <span class="comment">% Assigning the current flow to the rectangular box parameters.</span>
+
+box_SR = J_R;
+
+<span class="comment">% Creating a vector for when the conductivity is incremented.</span>
+
+Right_IncCC = J_R;
+LEFT_IncCC = J_L;
+
+
+<span class="keyword">for</span> num_Iter = 2:5
+
+
+   <span class="comment">%Ajusting the elements of the matrix with the Length and the multiplying factor</span>
+    nx = 100*L*(1+(0.1*num_Iter));
+
+
+
+    <span class="comment">%Adjusting the elements of the matrix with the width and the multiplying factor</span>
+    ny = 100*W*(1+(0.1*num_Iter));
+
+
+
+
+  <span class="comment">% Setting up the G matrix using sparse</span>
+  G = sparse(nx*ny,nx*ny);
+
+  <span class="comment">% Setting up the F matrix for GV = F</span>
+  F = zeros(nx*ny,1);
+
+
+  C = zeros(ny,nx); <span class="comment">%Map of Conductivity</span>
+
+
+    <span class="keyword">for</span> h = 1:ny
+
+        <span class="comment">%Assigning the values of sigma as per the location of the element</span>
+        <span class="keyword">for</span> g = 1:nx
+
+            <span class="keyword">if</span>(g &gt;= nx*W_BN &amp;&amp; g &lt;= nx-nx*W_BN &amp;&amp; (h &gt;= ny-ny*L_BN || h &lt;= ny*L_BN))
+
+                <span class="comment">% If inside the box, then sigma = 1e^-2</span>
+                C(h,g) = sig_2;
+
+
+            <span class="keyword">else</span>
+
+                <span class="comment">%This is for outside the box. sigma = 1</span>
+                C(h,g) = sig_1;
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+
+
+
+
+
+    <span class="keyword">for</span> g = 1:nx            <span class="comment">% Elements allocation of the G Matrix</span>
+
+        <span class="keyword">for</span> h = 1:ny
+
+
+            <span class="comment">% Node mapping equation</span>
+            n = h + (g - 1)*ny;
+
+
+           <span class="comment">%Local Mapping of the nodes around g and h</span>
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+
+
+
+            <span class="keyword">if</span>(g == 1 || g == nx)
+                G(n,n) = 1;
+
+                <span class="keyword">elseif</span> (h == ny)            <span class="comment">%Evaluation at the Top Region</span>
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="keyword">elseif</span> (h == 1)                    <span class="comment">%Evaluation of Bottom Region</span>
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+
+
+            <span class="keyword">else</span>
+
+                <span class="comment">%The finite difference method is being applied to evaluate the</span>
+                 <span class="comment">%regions potetntials outside as well.</span>
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+
+            <span class="comment">%Node Mapping Equation put entries into right locations</span>
+            n = h + (g - 1)*ny;
+
+
+            <span class="keyword">if</span> (g == 1)
+
+
+                F(n) = V_0;                     <span class="comment">%Indicating a shift towards left so the value must be set equal to V_0</span>
+
+            <span class="keyword">end</span>
+
+
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">end</span>
+
+
+
+
+
+    <span class="comment">%Utilizing the relationship GV = F to solve for equation</span>
+
+    V = G\F;
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+
+        <span class="keyword">for</span> h = 1:ny
+
+            <span class="comment">% Node mapping to put entries into the correct place</span>
+            n = h + (g - 1)*ny;
+
+            Vmap(h,g) = V(n);
+
+
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+
+
+    [E_x,E_y] = gradient(-Vmap);           <span class="comment">%The electric field can be calculated from the gradient same as the previous part.</span>
+
+
+
+
+    <span class="comment">% Calculating the current flow in the different locations and</span>
+    <span class="comment">% directions and storing</span>
+
+    CurrentL_M(num_Iter) = sum(C(:,1).*E_x(:,1));
+    CurrentR_M(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+
+<span class="keyword">end</span>
+
+
+<span class="comment">%Plotting the variation of the Mesh Density with respect to the flow of</span>
+<span class="comment">%current through the region</span>
+
+figure(8)
+plot(linspace(1,5,5),CurrentL_M,<span class="string">'b--'</span>)
+hold <span class="string">on</span>
+plot(linspace(1,5,5),CurrentR_M,<span class="string">'r:'</span>)
+set(gca,<span class="string">'Color'</span>, [0 0 0]);
+a_x = gca;
+a_x.GridAlpha = 0.5;
+a_x.GridColor = [1, 1, 1];
+
+hold <span class="string">off</span>
+xlabel(<span class="string">'Mesh Density'</span>)
+ylabel({<span class="string">'I (A)'</span>})
+title({<span class="string">'Mesh Density variation with the change in I Plot SM101092039'</span>})
+lg = legend(<span class="string">'Left Contact I'</span>,<span class="string">'Right Contact I'</span>)
+color = lg.TextColor;
+lg.TextColor = <span class="string">'white'</span>;
+</pre><pre class="codeoutput">
+lg = 
+
+  Legend (Left Contact I, Right Contact I) with properties:
+
+         String: {'Left Contact I'  'Right Contact I'}
+       Location: 'northeast'
+    Orientation: 'vertical'
+       FontSize: 18
+       Position: [0.5310 0.7401 0.3554 0.1393]
+          Units: 'normalized'
+
+  Use GET to show all properties
+
+</pre><img vspace="5" hspace="5" src="A2_P2_05.png" alt=""> <h2 id="3">2C) Investigate narrowing of the bottle neck</h2><pre class="codeinput"><span class="comment">% Setting the Length and Width paramters of the rectangular region</span>
+<span class="comment">%Utilizng the Length and width to configure the elements ranges</span>
+nx = 100*L;
+ny = 100*W;
+
+
+
+
+<span class="keyword">for</span>  num_Iter = 1:5
+
+
+      C = zeros(ny,nx); <span class="comment">% Map of Conductivity</span>
+
+
+
+     W_BN = 0.4*(1+(num_Iter/20));      <span class="comment">% Adjusting the Width of the bottle neck boxes with the iteration factor</span>
+     L_BN = 0.4*(1+(num_Iter/20));      <span class="comment">% Adjusting the Length of the bottle neck boxes with the iteration factor</span>
+
+
+
+    <span class="keyword">for</span> h = 1:ny
+
+        <span class="comment">% Adjusting the sigma value for the elements based on the location</span>
+         <span class="keyword">for</span> g = 1:nx
+
+
+            <span class="keyword">if</span>(g &gt;= nx*W_BN &amp;&amp; g &lt;= nx-nx*W_BN &amp;&amp; (h &gt;= ny-ny*L_BN || h &lt;= ny*L_BN))               <span class="comment">% If Inside the box then sigma = 10e-2</span>
+                C(h,g) = sig_2;
+
+
+            <span class="keyword">else</span>
+
+                <span class="comment">% If outside the box, sigma = 1</span>
+                C(h,g) = sig_1;
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+    <span class="comment">% Initialize and create the G matrix</span>
+    G = sparse(nx*ny,nx*ny);
+
+
+    <span class="comment">%Initialize and create G Matrix</span>
+    F = zeros(nx*ny,1);
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+
+            n = h + (g - 1)*ny;              <span class="comment">% Node mapping equation</span>
+
+
+
+
+            <span class="comment">% Local Mapping of Nodes around g and h</span>
+
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+
+
+
+
+            <span class="keyword">if</span>(g == 1 || g == nx)
+                G(n,n) = 1;
+
+
+            <span class="comment">%Evaluation at the bottom region</span>
+
+            <span class="keyword">elseif</span> (h == 1)
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="comment">%Evaluation at the top region</span>
+
+            <span class="keyword">elseif</span> (h == ny)
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="comment">%The finite difference method is being applied to evaluate the</span>
+            <span class="comment">%regions potetntials outside as well.</span>
+
+            <span class="keyword">else</span>
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+
+            n = h + (g - 1)*ny;   <span class="comment">%Node Mapping Equation</span>
+
+
+
+            <span class="keyword">if</span> (g == 1)
+
+                <span class="comment">%Indicating a shift towards left so the value must be set equal to V_0</span>
+                F(n) = V_0;
+
+
+            <span class="keyword">end</span>
+
+
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+    <span class="comment">%Utilizing the relationship GV = F to solve for equation</span>
+    V = G\F;
+
+
+    <span class="comment">%Initliazing Vmap to 0 for setting up the matrix</span>
+
+
+    Vmap = 0;
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+            <span class="comment">% Node mapping equation</span>
+            n = h + (g - 1)*ny;
+
+
+            <span class="comment">%Calculating the Gradient of V</span>
+
+
+            Vmap(h,g) = V(n);
+
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">end</span>
+
+
+
+    [E_x,E_y] = gradient(-Vmap);     <span class="comment">%The electric field can be calculated from the gradient same as the previous part.</span>
+
+
+
+    <span class="comment">% Calculating the current flow in the different locations and</span>
+    <span class="comment">% directions and examining the variation with respect to the boxes.</span>
+
+
+    box_SL(num_Iter) = sum(C(:,1).*E_x(:,1));
+    box_SR(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+
+
+<span class="keyword">end</span>
+
+
+
+<span class="comment">% Plotting the Variation of Current with respect to the changes in the</span>
+<span class="comment">% dimension of the boxes</span>
+figure(9)
+plot(linspace(1,5,5),box_SR,<span class="string">'b:'</span>)
+hold <span class="string">on</span>
+plot(linspace(1,5,5),box_SL,<span class="string">'r--'</span>)
+plot(linspace(1,5,5),box_SR,<span class="string">'b:'</span>)
+set(gca,<span class="string">'Color'</span>, [0 0 0]);
+a_x = gca;
+a_x.GridAlpha = 0.5;
+a_x.GridColor = [1, 1, 1];
+
+
+hold <span class="string">off</span>
+title({<span class="string">'Investigation Of the Narrowing of the Box Plot, SM101092039'</span>})
+xlabel(<span class="string">'Box Size Changes'</span>)
+ylabel({<span class="string">'I (A)'</span>})
+lg = legend(<span class="string">'Left side I'</span>,<span class="string">'Right side I'</span>)
+color = lg.TextColor;
+lg.TextColor = <span class="string">'white'</span>;
+</pre><pre class="codeoutput">
+lg = 
+
+  Legend (Left side I, Right side I) with properties:
+
+         String: {'Left side I'  'Right side I'}
+       Location: 'northeast'
+    Orientation: 'vertical'
+       FontSize: 18
+       Position: [0.5952 0.7401 0.2911 0.1393]
+          Units: 'normalized'
+
+  Use GET to show all properties
+
+</pre><img vspace="5" hspace="5" src="A2_P2_06.png" alt=""> <h2 id="4">2D)Investigate the varying conductivity of the Box</h2><pre class="codeinput"><span class="keyword">for</span> num_Iter = 1:5
+
+
+    <span class="comment">%Configuring the elements of the matrix with respect to the Length and</span>
+    <span class="comment">%multiplying factor</span>
+    nx = 100*L;
+
+    <span class="comment">%Configuring the elements of the matrix with respect to the width and</span>
+    <span class="comment">%multiplying factor</span>
+    ny = 100*W;
+
+
+
+    C = zeros(ny,nx);   <span class="comment">% Map of Conduction will be utlized for analyzing the conductivity</span>
+
+
+
+    L_BN = 0.4;   <span class="comment">% Setting the length of the rectangle boxes</span>
+    W_BN = 0.4;   <span class="comment">% Setting the length of the rectangle boxes</span>
+
+
+
+
+    <span class="keyword">for</span> h = 1:ny
+
+       <span class="comment">%Assigning the values of sigma as per the location of the element</span>
+        <span class="keyword">for</span> g = 1:nx
+
+
+            <span class="keyword">if</span>(g &gt;= nx*W_BN &amp;&amp; g &lt;= nx-nx*W_BN &amp;&amp; (h &gt;= ny-ny*L_BN || h &lt;= ny*L_BN))
+
+                C(h,g) = sig_2;                                             <span class="comment">%  If Inside the box then sigma = 10e-2</span>
+
+
+            <span class="keyword">else</span>
+
+                <span class="comment">% If outside the box, then sigma =1</span>
+
+                C(h,g) = sig_1;
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">end</span>
+
+
+
+
+    G = sparse(nx*ny,nx*ny);
+    F = zeros(nx*ny,1);
+
+
+
+    C = C*(1+(0.1*num_Iter));   <span class="comment">% The size of the matrix of conductivity is being incremented in order for more allocation of more number of elements</span>
+
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+
+        <span class="keyword">for</span> h = 1:ny
+
+
+           <span class="comment">%Node Mapping equation</span>
+            n = h + (g - 1)*ny;
+
+
+           <span class="comment">%Local Mapping of the nodes around g and h</span>
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+
+
+            <span class="keyword">if</span>(g == 1 || g == nx)
+
+
+                <span class="comment">% Set voltage on the sides</span>
+                G(n,n) = 1;
+
+
+                <span class="comment">% Evaluation at the top</span>
+                <span class="keyword">elseif</span> (h == ny)
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+             <span class="comment">% Evaluation at the bottom</span>
+            <span class="keyword">elseif</span> (h == 1)
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="keyword">else</span>
+
+
+            <span class="comment">%The finite difference method is being applied to evaluate the</span>
+            <span class="comment">%regions potetntials outside as well.</span>
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+            <span class="comment">% Node mapping equation</span>
+            n = h + (g - 1)*ny;
+
+
+            <span class="keyword">if</span> (g == 1)
+
+
+                F(n) = V_0;   <span class="comment">%Indicating if a shift towards left so the value must be set equal to V_0</span>
+
+
+            <span class="keyword">end</span>
+
+
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+
+
+
+    <span class="comment">% Utilizng the relationship GV = F</span>
+    V = G\F;
+
+
+
+    <span class="comment">%Initliazing Vmap to 0 for setting up the matrix</span>
+    Vmap = 0;
+
+    <span class="keyword">for</span> g = 1:nx
+
+        <span class="keyword">for</span> h = 1:ny
+
+            <span class="comment">% Node mapping to put entries into the correct place</span>
+            n = h + (g - 1)*ny;
+
+
+            Vmap(h,g) = V(n);
+
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+
+
+
+    [E_x,E_y] = gradient(-Vmap);    <span class="comment">%The electric field can be calculated from the gradient same as the previous part.</span>
+
+
+
+     <span class="comment">% Calculating the current flow in the different locations and</span>
+     <span class="comment">% directions and examining the variation with respect to the</span>
+     <span class="comment">% conductivity.</span>
+
+     Right_IncCC(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+     LEFT_IncCC(num_Iter) = sum(C(:,1).*E_x(:,1));
+
+
+<span class="keyword">end</span>
+
+
+<span class="comment">% Plotting the Variation of Current with respect to the conductin of the</span>
+<span class="comment">% region</span>
+
+figure(10)
+plot(linspace(1,5,5),LEFT_IncCC,<span class="string">'b:'</span>)
+hold <span class="string">on</span>
+plot(linspace(1,5,5),Right_IncCC,<span class="string">'r--'</span>)
+set(gca,<span class="string">'Color'</span>, [0 0 0]);
+a_x = gca;
+a_x.GridAlpha = 0.5;
+a_x.GridColor = [1, 1, 1];
+
+hold <span class="string">off</span>
+title({<span class="string">'Graph of Current vs Conductivity, SM101092039'</span>})
+xlabel(<span class="string">'Conductivity'</span>)
+ylabel({<span class="string">'I (A)'</span>})
+lg = legend(<span class="string">'Right Contact'</span> , <span class="string">'Left Contact'</span>)
+color = lg.TextColor;
+lg.TextColor = <span class="string">'white'</span>;
+</pre><pre class="codeoutput">
+lg = 
+
+  Legend (Right Contact, Left Contact) with properties:
+
+         String: {'Right Contact'  'Left Contact'}
+       Location: 'northeast'
+    Orientation: 'vertical'
+       FontSize: 18
+       Position: [0.5560 0.7401 0.3304 0.1393]
+          Units: 'normalized'
+
+  Use GET to show all properties
+
+</pre><img vspace="5" hspace="5" src="A2_P2_07.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Part 2 
+% Saifuddin Mohammed
+% #101092039
+
+
+%% 2A) 
+
+set(0,'DefaultFigureWindowStyle','docked')
+set(0,'defaultaxesfontsize',20)
+set(0,'defaultaxesfontname','Times New Roman')
+set(0,'DefaultLineLineWidth',2); 
+
+close all
+clear
+clc
+
+% Setting up Length and Width as per the ratio L/W
+L = 1;
+W = 1;
+
+V_0 = 1;    %Assigning V0 a value of 1;
+
+
+nx = 100*L;  
+ny = 100*W;
+
+W_BN = 0.4;     %Width of the rectangle box
+L_BN = 0.4;     %Length of the rectangle box
+
+
+sig_1 = 1;        %Value of sigma outside the box
+sig_2 = 1e-2;     %Value of sigma inside the box
+
+
+
+
+
+C = zeros(ny,nx);   % Map of Conductivity 
+
+
+
+
+for h = 1:ny
+    
+    for g = 1:nx
+        
+        %Assigning the values of sigma as per the location of the element 
+        
+        
+        if(g >= nx*W_BN && g <= nx-nx*W_BN && (h >= ny-ny*L_BN || h <= ny*L_BN)) 
+            
+            
+            % If inside the box, then sigma = 1e^-2
+            
+            C(h,g) = sig_2;
+            
+       
+        else                                         %This is for outside the box. sigma = 1
+            
+            C(h,g) = sig_1;
+            
+        end
+        
+        
+    end
+    
+    
+end
+
+
+
+
+% Plot of conductivity of the region
+figure(4)
+surf(C)
+view(0,90)
+xlabel('L (um)')
+ylabel('W (um)')
+title({'Conductivity, sigma(x,y) of the Region, SM101092039'})
+
+
+
+%  Creating the G matrix and B vector for the GV = F solution
+
+ G = sparse(nx*ny);
+ F = zeros(nx*ny,1);
+
+
+
+for g = 1:nx
+    
+    for h = 1:ny
+        
+       %Mapping of the nodes equation  
+        n = h + (g - 1)*ny;
+        
+        
+        
+       %Local Mapping of the nodes around g and h
+        nxm = h + (g - 2)*ny;
+        nxp = h + g*ny;
+        nym = (h - 1) + (g - 1)*ny;
+        nyp = (h + 1) + (g - 1)*ny;
+        
+       
+        
+        if(g == 1 || g == nx) 
+            
+            
+            G(n,n) = 1;       %Left Side Set Voltage 
+            
+       
+            
+       
+        elseif (h == 1)    %Evalutation at the bottom region 
+            
+            U_Y = (C(h,g)+C(h+1,g))/2;
+            U_X = (C(h,g)+C(h,g+1))/2;
+            UX_D = (C(h,g)+C(h,g-1))/2;
+            
+            G(n,n) = -(U_Y + U_X + UX_D);
+            G(n,nyp) = U_Y;
+            G(n,nxp) = U_X;
+            G(n,nxm) = UX_D;
+            
+            
+       % Evaluation at the top region   
+       
+       elseif (h == ny)
+           
+              
+              YDY_E = (C(h,g)+C(h-1,g))/2;
+              UDX_E = (C(h,g)+C(h,g+1))/2;
+              DDX_E = (C(h,g)+C(h,g-1))/2;
+              
+              G(n,n) = -(YDY_E + UDX_E + DDX_E);
+              G(n,nym) = YDY_E;
+              G(n,nxp) = UDX_E;
+              G(n,nxm) = DDX_E;
+              
+            
+            
+        else 
+            
+            
+           %The finite difference method is being applied to evaluate the
+           %regions potetntial outside the range as well. 
+           
+            U_Y = (C(h,g)+C(h+1,g))/2;
+            D_Y = (C(h,g)+C(h-1,g))/2;
+            U_X = (C(h,g)+C(h,g+1))/2;
+            UX_D = (C(h,g)+C(h,g-1))/2;
+            
+            
+            G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+            G(n,nyp) = U_Y;
+            G(n,nym) = D_Y;
+            G(n,nxp) = U_X;
+            G(n,nxm) = UX_D;
+            
+            
+        end
+        
+        
+    end
+    
+    
+end
+
+
+
+
+
+for g = 1:nx
+    
+    for h = 1:ny
+     
+        
+        
+        %Node Mapping Equation 
+        n = h + (g - 1)*ny;
+       
+        
+        if (g == 1) %Indicating a shift towards left so the value must be set equal to V_0
+            
+          
+            F(n) = V_0;
+            
+            
+        end
+        
+        
+        
+    end
+    
+end
+
+% Utilizing  GV = F to solve the equation 
+
+V = G\F;
+
+
+for g = 1:nx
+    
+    for h = 1:ny
+        
+        % Node mapping to put entries into the correct place
+        n = h + (g - 1)*ny;
+        
+        Vmap(h,g) = V(n);
+        
+        
+    end
+end
+
+
+
+% Plotting the Voltage V across the region
+figure(5)
+surf(Vmap)
+view(0,90)
+xlabel('L (um)')
+ylabel('W (um)')
+title({'Voltage V(x,y) Plot, SM101092039'})
+
+
+
+[E_x,E_y] = gradient(-Vmap);   %Electric Field of the regions can be determined from using the gradient
+
+
+
+
+% Plotting the Electric Field over the region 
+
+figure(6)
+quiver(E_x,E_y)
+view(0,90)
+xlabel('L (um)')
+ylabel('W (um)')
+title({'Electric Field in the Region, SM101092039'})
+ylim([0,100])
+xlim([0,100])
+
+
+
+
+
+%The current density can be calculated from the Electric Field Potential 
+J_dx = E_x.*C;
+J_dy = E_y.*C;
+
+
+% Generating a plot of Current Density, J across the region
+figure(7)
+quiver(J_dx,J_dy)
+view(0,90)
+xlabel('L (um)')
+ylabel('Width (um)')
+title({'Current Density, J(x,y) Plot, SM101092039'})
+ylim([0,100])
+xlim([0,100])
+
+
+
+
+%Current Density on the Left side of the region is being determined
+J_L = sum(C(:,1).*E_x(:,1));     
+
+
+% Determination of Current Density on the Right side of the region 
+J_R = sum(C(:,nx).*E_x(:,nx));   
+
+
+
+%Display the calculated current flow along the sides of the region.
+
+fprintf('Right side current flow is %f7 A.\n',J_R)
+fprintf('Left side current flow is %f7 A.\n',J_L)
+
+
+
+%% 2B) Investigate Mesh Densty 
+
+
+%Assigning the Mesh current rate flow
+CurrentL_M = J_L;
+CurrentR_M = J_R;
+
+
+% Creating variables for current versus box lengths/widths
+
+
+box_SL = J_L;   % Assigning the current flow to the rectangular box parameters.
+
+box_SR = J_R;
+
+% Creating a vector for when the conductivity is incremented.
+
+Right_IncCC = J_R;
+LEFT_IncCC = J_L;
+
+
+for num_Iter = 2:5
+    
+    
+   %Ajusting the elements of the matrix with the Length and the multiplying factor
+    nx = 100*L*(1+(0.1*num_Iter));
+    
+    
+    
+    %Adjusting the elements of the matrix with the width and the multiplying factor 
+    ny = 100*W*(1+(0.1*num_Iter));
+
+   
+
+    
+  % Setting up the G matrix using sparse  
+  G = sparse(nx*ny,nx*ny);
+  
+  % Setting up the F matrix for GV = F 
+  F = zeros(nx*ny,1);
+  
+  
+  C = zeros(ny,nx); %Map of Conductivity 
+    
+
+    for h = 1:ny
+        
+        %Assigning the values of sigma as per the location of the element 
+        for g = 1:nx
+            
+            if(g >= nx*W_BN && g <= nx-nx*W_BN && (h >= ny-ny*L_BN || h <= ny*L_BN))
+                
+                % If inside the box, then sigma = 1e^-2
+                C(h,g) = sig_2;
+                
+            
+            else
+                
+                %This is for outside the box. sigma = 1
+                C(h,g) = sig_1;
+                
+                
+            end
+            
+        end
+        
+    end
+    
+    
+    
+  
+    
+
+
+    
+    for g = 1:nx            % Elements allocation of the G Matrix
+        
+        for h = 1:ny
+            
+
+            % Node mapping equation
+            n = h + (g - 1)*ny;
+
+           
+           %Local Mapping of the nodes around g and h
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+            
+
+           
+            if(g == 1 || g == nx) 
+                G(n,n) = 1;
+                
+                elseif (h == ny)            %Evaluation at the Top Region 
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+                
+                
+            elseif (h == 1)                    %Evaluation of Bottom Region 
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+                
+                
+
+            else
+                
+                %The finite difference method is being applied to evaluate the
+                 %regions potetntials outside as well. 
+                 
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+                
+
+            end
+            
+        end
+        
+    end
+    
+    
+   
+    for g = 1:nx    
+        
+        for h = 1:ny
+            
+           
+            %Node Mapping Equation put entries into right locations
+            n = h + (g - 1)*ny;
+
+          
+            if (g == 1) 
+                
+                
+                F(n) = V_0;                     %Indicating a shift towards left so the value must be set equal to V_0
+                
+            end
+
+          
+        end
+        
+        
+    end
+    
+    
+    
+    
+
+    %Utilizing the relationship GV = F to solve for equation
+    
+    V = G\F;
+
+   
+
+    for g = 1:nx
+        
+        
+        for h = 1:ny
+            
+            % Node mapping to put entries into the correct place
+            n = h + (g - 1)*ny;
+
+            Vmap(h,g) = V(n);
+            
+            
+        end
+    end
+    
+   
+
+    [E_x,E_y] = gradient(-Vmap);           %The electric field can be calculated from the gradient same as the previous part.
+    
+    
+   
+    
+    % Calculating the current flow in the different locations and
+    % directions and storing
+    
+    CurrentL_M(num_Iter) = sum(C(:,1).*E_x(:,1));
+    CurrentR_M(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+    
+end
+
+
+%Plotting the variation of the Mesh Density with respect to the flow of
+%current through the region
+
+figure(8)
+plot(linspace(1,5,5),CurrentL_M,'bREPLACE_WITH_DASH_DASH')
+hold on
+plot(linspace(1,5,5),CurrentR_M,'r:')
+set(gca,'Color', [0 0 0]);
+a_x = gca; 
+a_x.GridAlpha = 0.5;  
+a_x.GridColor = [1, 1, 1]; 
+
+hold off
+xlabel('Mesh Density')
+ylabel({'I (A)'})
+title({'Mesh Density variation with the change in I Plot SM101092039'})
+lg = legend('Left Contact I','Right Contact I')
+color = lg.TextColor;
+lg.TextColor = 'white'; 
+
+
+
+
+
+%% 2C) Investigate narrowing of the bottle neck
+
+% Setting the Length and Width paramters of the rectangular region
+%Utilizng the Length and width to configure the elements ranges
+nx = 100*L;
+ny = 100*W;
+
+
+
+
+for  num_Iter = 1:5
+    
+    
+      C = zeros(ny,nx); % Map of Conductivity 
+      
+      
+      
+     W_BN = 0.4*(1+(num_Iter/20));      % Adjusting the Width of the bottle neck boxes with the iteration factor
+     L_BN = 0.4*(1+(num_Iter/20));      % Adjusting the Length of the bottle neck boxes with the iteration factor
+     
+     
+
+    for h = 1:ny
+        
+        % Adjusting the sigma value for the elements based on the location 
+         for g = 1:nx
+           
+            
+            if(g >= nx*W_BN && g <= nx-nx*W_BN && (h >= ny-ny*L_BN || h <= ny*L_BN))               % If Inside the box then sigma = 10e-2
+                C(h,g) = sig_2;
+                
+            
+            else
+                
+                % If outside the box, sigma = 1 
+                C(h,g) = sig_1;
+                
+                
+            end
+            
+        end
+        
+    end
+    
+    
+    
+    % Initialize and create the G matrix
+    G = sparse(nx*ny,nx*ny);
+    
+    
+    %Initialize and create G Matrix 
+    F = zeros(nx*ny,1);
+    
+
+    
+    for g = 1:nx
+        
+        for h = 1:ny
+
+                                           
+            n = h + (g - 1)*ny;              % Node mapping equation
+            
+            
+            
+
+            % Local Mapping of Nodes around g and h 
+            
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+            
+            
+
+           
+            if(g == 1 || g == nx) 
+                G(n,n) = 1;
+                
+                
+            %Evaluation at the bottom region 
+            
+            elseif (h == 1)   
+                
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+            
+                
+            %Evaluation at the top region 
+            
+            elseif (h == ny) 
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+                
+           
+            %The finite difference method is being applied to evaluate the
+            %regions potetntials outside as well.      
+                
+            else  
+                
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+
+            end
+            
+        end
+        
+    end
+    
+    
+   
+    for g = 1:nx
+        
+        for h = 1:ny
+            
+          
+            n = h + (g - 1)*ny;   %Node Mapping Equation 
+
+          
+            
+            if (g == 1) 
+                
+                %Indicating a shift towards left so the value must be set equal to V_0
+                F(n) = V_0;
+                
+                
+            end
+
+           
+            
+        end
+        
+    end
+    
+    
+
+    %Utilizing the relationship GV = F to solve for equation
+    V = G\F;
+
+    
+    %Initliazing Vmap to 0 for setting up the matrix
+    
+    
+    Vmap = 0;
+    
+    for g = 1:nx
+        
+        for h = 1:ny
+            
+            % Node mapping equation
+            n = h + (g - 1)*ny;
+
+            
+            %Calculating the Gradient of V
+            
+            
+            Vmap(h,g) = V(n);
+            
+        end
+        
+        
+    end
+    
+   
+
+    [E_x,E_y] = gradient(-Vmap);     %The electric field can be calculated from the gradient same as the previous part.
+    
+   
+    
+    % Calculating the current flow in the different locations and
+    % directions and examining the variation with respect to the boxes.
+   
+    
+    box_SL(num_Iter) = sum(C(:,1).*E_x(:,1));
+    box_SR(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+    
+    
+end
+
+
+
+% Plotting the Variation of Current with respect to the changes in the
+% dimension of the boxes
+figure(9)
+plot(linspace(1,5,5),box_SR,'b:')
+hold on
+plot(linspace(1,5,5),box_SL,'rREPLACE_WITH_DASH_DASH')
+plot(linspace(1,5,5),box_SR,'b:')
+set(gca,'Color', [0 0 0]);
+a_x = gca; 
+a_x.GridAlpha = 0.5;  
+a_x.GridColor = [1, 1, 1]; 
+
+
+hold off
+title({'Investigation Of the Narrowing of the Box Plot, SM101092039'})
+xlabel('Box Size Changes')
+ylabel({'I (A)'})
+lg = legend('Left side I','Right side I')
+color = lg.TextColor;
+lg.TextColor = 'white'; 
+
+
+
+
+
+%% 2D)Investigate the varying conductivity of the Box 
+
+
+
+for num_Iter = 1:5
+    
+    
+    %Configuring the elements of the matrix with respect to the Length and
+    %multiplying factor
+    nx = 100*L;
+    
+    %Configuring the elements of the matrix with respect to the width and
+    %multiplying factor
+    ny = 100*W;
+    
+    
+
+    C = zeros(ny,nx);   % Map of Conduction will be utlized for analyzing the conductivity 
+   
+    
+    
+    L_BN = 0.4;   % Setting the length of the rectangle boxes
+    W_BN = 0.4;   % Setting the length of the rectangle boxes
+    
+    
+  
+
+    for h = 1:ny
+        
+       %Assigning the values of sigma as per the location of the element 
+        for g = 1:nx
+            
+           
+            if(g >= nx*W_BN && g <= nx-nx*W_BN && (h >= ny-ny*L_BN || h <= ny*L_BN))     
+                
+                C(h,g) = sig_2;                                             %  If Inside the box then sigma = 10e-2
+                
+            
+            else
+                
+                % If outside the box, then sigma =1
+                
+                C(h,g) = sig_1;
+                
+                
+            end
+            
+        end
+        
+        
+    end
+    
+
+ 
+
+    G = sparse(nx*ny,nx*ny);
+    F = zeros(nx*ny,1);
+
+    
+    
+    C = C*(1+(0.1*num_Iter));   % The size of the matrix of conductivity is being incremented in order for more allocation of more number of elements
+    
+    
+    
+    
+    for g = 1:nx
+        
+        
+        for h = 1:ny
+            
+
+           %Node Mapping equation 
+            n = h + (g - 1)*ny;
+
+            
+           %Local Mapping of the nodes around g and h
+            nxm = h + (g - 2)*ny;
+            nxp = h + g*ny;
+            nym = (h - 1) + (g - 1)*ny;
+            nyp = (h + 1) + (g - 1)*ny;
+
+           
+            if(g == 1 || g == nx) 
+                
+                
+                % Set voltage on the sides
+                G(n,n) = 1;
+                 
+                
+                % Evaluation at the top
+                elseif (h == ny)
+
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(D_Y + U_X + UX_D);
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+                
+             
+             % Evaluation at the bottom    
+            elseif (h == 1)
+
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+
+                G(n,n) = -(U_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+
+
+                
+            else 
+                
+                
+            %The finite difference method is being applied to evaluate the
+            %regions potetntials outside as well.   
+                
+                U_Y = (C(h,g)+C(h+1,g))/2;
+                D_Y = (C(h,g)+C(h-1,g))/2;
+                U_X = (C(h,g)+C(h,g+1))/2;
+                UX_D = (C(h,g)+C(h,g-1))/2;
+                
+
+                G(n,n) = -(U_Y + D_Y + U_X + UX_D);
+                G(n,nyp) = U_Y;
+                G(n,nym) = D_Y;
+                G(n,nxp) = U_X;
+                G(n,nxm) = UX_D;
+                
+                
+
+            end
+            
+        end
+        
+    end
+    
+    
+    
+   
+    for g = 1:nx
+        
+        for h = 1:ny
+            
+            % Node mapping equation
+            n = h + (g - 1)*ny;
+
+           
+            if (g == 1) 
+                
+                
+                F(n) = V_0;   %Indicating if a shift towards left so the value must be set equal to V_0
+                
+                
+            end
+
+            
+        end
+    end
+
+    
+
+    
+    % Utilizng the relationship GV = F
+    V = G\F;
+
+   
+    
+    %Initliazing Vmap to 0 for setting up the matrix
+    Vmap = 0;
+    
+    for g = 1:nx
+        
+        for h = 1:ny
+            
+            % Node mapping to put entries into the correct place
+            n = h + (g - 1)*ny;
+            
+
+            Vmap(h,g) = V(n);
+            
+            
+        end
+        
+    end
+    
+    
+    
+
+    [E_x,E_y] = gradient(-Vmap);    %The electric field can be calculated from the gradient same as the previous part.
+
+    
+    
+     % Calculating the current flow in the different locations and
+     % directions and examining the variation with respect to the
+     % conductivity. 
+   
+     Right_IncCC(num_Iter) = sum(C(:,nx).*E_x(:,nx));
+     LEFT_IncCC(num_Iter) = sum(C(:,1).*E_x(:,1));
+    
+    
+end
+
+
+% Plotting the Variation of Current with respect to the conductin of the
+% region
+
+figure(10)
+plot(linspace(1,5,5),LEFT_IncCC,'b:')
+hold on
+plot(linspace(1,5,5),Right_IncCC,'rREPLACE_WITH_DASH_DASH')
+set(gca,'Color', [0 0 0]);
+a_x = gca; 
+a_x.GridAlpha = 0.5;  
+a_x.GridColor = [1, 1, 1]; 
+
+hold off
+title({'Graph of Current vs Conductivity, SM101092039'})
+xlabel('Conductivity')
+ylabel({'I (A)'})
+lg = legend('Right Contact' , 'Left Contact')
+color = lg.TextColor;
+lg.TextColor = 'white'; 
+
+##### SOURCE END #####
+--></body></html>
